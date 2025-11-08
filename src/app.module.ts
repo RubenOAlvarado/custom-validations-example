@@ -4,6 +4,8 @@ import { DrizzleModule } from '@common/database/drizzle.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ThrottlerConfigService } from '@common/config/services/throttler-config.service';
 import { APP_GUARD } from '@nestjs/core';
+import { UsersModule } from './users/users.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { APP_GUARD } from '@nestjs/core';
       imports: [ConfigModule],
       useClass: ThrottlerConfigService,
     }),
+    UsersModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [

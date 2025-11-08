@@ -5,9 +5,12 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { swaggerHelpers } from '@common/config/configurations/swagger.config';
 import { OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Configure class-validator to use NestJS container for dependency injection
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService);
   // ========================
   // App config
@@ -50,7 +53,7 @@ async function bootstrap() {
   app.enableCors({
     origin: allowedOrigins,
   });
-  app.setGlobalPrefix(`api/v${apiVersion}`);
+  app.setGlobalPrefix(`api`);
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: apiVersion,
